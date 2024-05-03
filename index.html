@@ -1,15 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="main.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    #drop-zone {
+      width: 300px;
+      height: 200px;
+      border: 2px dashed #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
 </head>
 <body>
-    <div id="container">
-        <div id="card"></div>
-    </div>
+    <textarea draggable="true" ondragstart="drag(event)">Texto arrastrable</textarea>
+  <div id="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
+  </div>
+
+  <script>
+    function allowDrop(event) {
+      event.preventDefault();
+    }
+
+    function drag(event) {
+      event.dataTransfer.setData('text/plain', event.target.value);
+    }
+    let contador = 0;
+    function drop(event) {
+      event.preventDefault();
+      const data = event.dataTransfer.getData('text/plain');
+      const textarea = document.createElement('textarea');
+      textarea.value = data;
+      textarea.id = "card"+contador
+      event.target.appendChild(textarea);
+      console.log(textarea.value);
+      
+const dragItem = document.querySelector(".drag-item");
+const dropZone = document.querySelector(".drop-zone");
+let div = document.getElementById("card" + contador);
+
+div.addEventListener("dragstart", (ev) => {
+  ev.dataTransfer.setData("text/plain", div.id);
+});
+
+
+  const id = event.dataTransfer.getData("text/plain");
+  const item = document.querySelector("#" + id);
+  div.draggable = false;
+  div.style.position = "fixed";
+
+let newX = 0, newY = 0, oldX = 0, oldY = 0;
+
+const card = document.getElementById("card" + contador);
+
+card.addEventListener("mousedown", mpuseDown);
+
+function mpuseDown(e){
+    oldX = e.clientX;
+    oldY = e.clientY;
+
+
+    document.addEventListener("mousemove", mouseMove);
+    document.addEventListener("mouseup", mouseUp);
+}
+
+function mouseMove(e){
+    newX = e.clientX - oldX;
+    newY = e.clientY - oldY;
+
+    card.style.top = card.offsetTop + newY + "px";
+    card.style.left = card.offsetLeft + newX + "px";
+
+    oldX = e.clientX;
+    oldY = e.clientY;
+}
+
+function mouseUp(e){
+    div.style.position = "absolute";
+    document.removeEventListener("mousemove", mouseMove);
+    document.removeEventListener("mouseup", mouseUp);
+}
+    contador++;
+    }
+  </script>
 </body>
-<script src="main.js"></script>
 </html>

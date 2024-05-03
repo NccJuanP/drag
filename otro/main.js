@@ -1,3 +1,4 @@
+
 const dragItem = document.querySelector(".drag-item");
 const dropZone = document.querySelector(".drop-zone");
 const div = document.getElementById("card");
