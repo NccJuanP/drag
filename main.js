@@ -22,9 +22,9 @@ function mouseMove(e){
 
     oldX = e.clientX;
     oldY = e.clientY;
-
-    console.log(newX, newY);
-    console.log(oldX, oldY);
 }
 
-function mouseUp(e){}
+function mouseUp(e){
+    document.removeEventListener("mousemove", mouseMove);
+    document.removeEventListener("mouseup", mouseUp);
+}
